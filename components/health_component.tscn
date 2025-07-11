@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://dn18ctdum58uq"]
+
+[ext_resource type="Script" path="res://components/health_component.gd" id="1_f3vs4"]
+[ext_resource type="PackedScene" uid="uid://bcc03t2jyr7q" path="res://components/floating_damage_component.tscn" id="2_aijp0"]
+
+[node name="HealthComponent" type="Node2D"]
+script = ExtResource("1_f3vs4")
+
+[node name="FloatingDamageComponent" parent="." instance=ExtResource("2_aijp0")]

@@ -1,0 +1,171 @@
+[gd_scene load_steps=4 format=3 uid="uid://dnsgukwu73kqe"]
+
+[ext_resource type="PackedScene" uid="uid://duf4bf7b442q5" path="res://characters/player/player.tscn" id="1_qvbmh"]
+[ext_resource type="Script" path="res://scenes/battle/battle.gd" id="1_y5c41"]
+[ext_resource type="PackedScene" uid="uid://7m0g6qqiyhyx" path="res://characters/slime/slime.tscn" id="2_kv0x3"]
+
+[node name="Battle" type="Node2D"]
+script = ExtResource("1_y5c41")
+
+[node name="Player" parent="." instance=ExtResource("1_qvbmh")]
+position = Vector2(1028, 304)
+
+[node name="EnemiesContainer" type="Node2D" parent="."]
+
+[node name="Slime" parent="EnemiesContainer" instance=ExtResource("2_kv0x3")]
+position = Vector2(183, 333)
+
+[node name="HUD" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1151.0
+offset_bottom = 647.0
+
+[node name="BattleLogPanel" type="Panel" parent="HUD"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 84.0
+grow_horizontal = 2
+
+[node name="Label" type="Label" parent="HUD/BattleLogPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = 12.0
+offset_right = -15.0
+offset_bottom = -11.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "O que deseja fazer?"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BattlePanel" type="Panel" parent="HUD"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -138.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="PanelsContainer" type="HBoxContainer" parent="HUD/BattlePanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="EnemyPanel" type="Panel" parent="HUD/BattlePanel/PanelsContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HUD/BattlePanel/PanelsContainer/EnemyPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="HUD/BattlePanel/PanelsContainer/EnemyPanel/VBoxContainer"]
+layout_mode = 2
+text = "Slime (a)
+"
+
+[node name="PlayerPanel" type="Panel" parent="HUD/BattlePanel/PanelsContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HUD/BattlePanel/PanelsContainer/PlayerPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PlayerLifeLabel" type="Label" parent="HUD/BattlePanel/PanelsContainer/PlayerPanel/VBoxContainer"]
+layout_mode = 2
+text = "Player 10/10"
+horizontal_alignment = 3
+text_overrun_behavior = 1
+
+[node name="ActionsPanel" type="Panel" parent="HUD/BattlePanel/PanelsContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HUD/BattlePanel/PanelsContainer/ActionsPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="AttackButton" type="Button" parent="HUD/BattlePanel/PanelsContainer/ActionsPanel/VBoxContainer"]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+text = "Atacar"
+flat = true
+alignment = 0
+expand_icon = true
+
+[node name="ItemButton" type="Button" parent="HUD/BattlePanel/PanelsContainer/ActionsPanel/VBoxContainer"]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+text = "Item"
+flat = true
+alignment = 0
+
+[node name="ItensPanel" type="Panel" parent="HUD/BattlePanel/PanelsContainer"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="HUD/BattlePanel/PanelsContainer/ItensPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ItensContainer" type="VBoxContainer" parent="HUD/BattlePanel/PanelsContainer/ItensPanel/VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="BackButtonContainer" type="VBoxContainer" parent="HUD/BattlePanel/PanelsContainer/ItensPanel/VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="BackButton" type="Button" parent="HUD/BattlePanel/PanelsContainer/ItensPanel/VBoxContainer2/BackButtonContainer"]
+layout_mode = 2
+size_flags_vertical = 8
+mouse_default_cursor_shape = 2
+text = "Voltar"
+
+[connection signal="button_down" from="HUD/BattlePanel/PanelsContainer/ActionsPanel/VBoxContainer/AttackButton" to="." method="_on_attack_button_down"]
+[connection signal="button_down" from="HUD/BattlePanel/PanelsContainer/ActionsPanel/VBoxContainer/ItemButton" to="." method="_on_item_button_down"]
+[connection signal="button_down" from="HUD/BattlePanel/PanelsContainer/ItensPanel/VBoxContainer2/BackButtonContainer/BackButton" to="." method="_on_item_back_button_down"]

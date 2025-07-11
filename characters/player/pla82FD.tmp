@@ -1,0 +1,68 @@
+[gd_scene load_steps=11 format=3 uid="uid://duf4bf7b442q5"]
+
+[ext_resource type="Texture2D" uid="uid://wfj25ongjxbc" path="res://characters/player/sprites/player.png" id="1_7op51"]
+[ext_resource type="Script" path="res://characters/player/player.gd" id="1_sks7h"]
+[ext_resource type="Resource" uid="uid://60iy2ew14mi0" path="res://characters/player/player_stats.tres" id="2_h3io0"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wb5xl"]
+atlas = ExtResource("1_7op51")
+region = Rect2(0, 48, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nb3qi"]
+atlas = ExtResource("1_7op51")
+region = Rect2(48, 48, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_75em2"]
+atlas = ExtResource("1_7op51")
+region = Rect2(96, 48, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g22dd"]
+atlas = ExtResource("1_7op51")
+region = Rect2(144, 48, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w0fo5"]
+atlas = ExtResource("1_7op51")
+region = Rect2(192, 48, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_duiar"]
+atlas = ExtResource("1_7op51")
+region = Rect2(240, 48, 48, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_emsnf"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wb5xl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nb3qi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_75em2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g22dd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w0fo5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_duiar")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 6.0
+}]
+
+[node name="Player" type="CharacterBody2D"]
+position = Vector2(1038, 315)
+scale = Vector2(3, 3)
+script = ExtResource("1_sks7h")
+stats = ExtResource("2_h3io0")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_emsnf")
+animation = &"idle"
+autoplay = "idle"
+frame_progress = 0.0910721
+flip_h = true
