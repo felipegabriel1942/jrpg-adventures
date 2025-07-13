@@ -1,7 +1,6 @@
 extends Node2D
 
 @onready var player = $Player
-
 @onready var battle_log = $HUD/BattleLogPanel/Label
 @onready var attack_button = $HUD/BattlePanel/PanelsContainer/ActionsPanel/VBoxContainer/AttackButton
 @onready var item_button = $HUD/BattlePanel/PanelsContainer/ActionsPanel/VBoxContainer/ItemButton
