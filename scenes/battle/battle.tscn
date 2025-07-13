@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://dnsgukwu73kqe"]
 
 [ext_resource type="PackedScene" uid="uid://duf4bf7b442q5" path="res://characters/player/player.tscn" id="1_qvbmh"]
-[ext_resource type="Script" path="res://scenes/battle/battle.gd" id="1_y5c41"]
+[ext_resource type="Script" uid="uid://ddn8nqdq0px4l" path="res://scenes/battle/battle.gd" id="1_y5c41"]
 [ext_resource type="PackedScene" uid="uid://7m0g6qqiyhyx" path="res://characters/slime/slime.tscn" id="2_kv0x3"]
 
 [node name="Battle" type="Node2D"]

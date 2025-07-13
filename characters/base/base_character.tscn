@@ -1,6 +1,6 @@
 [gd_scene load_steps=15 format=3 uid="uid://7lycpldco6mf"]
 
-[ext_resource type="Script" path="res://characters/base/base_character.gd" id="1_qsh37"]
+[ext_resource type="Script" uid="uid://tcnau6ax21ua" path="res://characters/base/base_character.gd" id="1_qsh37"]
 [ext_resource type="PackedScene" uid="uid://dn18ctdum58uq" path="res://components/health_component.tscn" id="2_g15fy"]
 [ext_resource type="Texture2D" uid="uid://cfv6vre8nh64e" path="res://characters/slime/sprites/slime.png" id="2_q2v4t"]
 [ext_resource type="Texture2D" uid="uid://cpq45huu4ttl" path="res://assets/sprites/icons/arrow_left.png" id="4_25p1q"]
@@ -79,9 +79,9 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_qy7t4"]
 _data = {
-"RESET": SubResource("Animation_514r8"),
-"damaged": SubResource("Animation_3ms04"),
-"pointer": SubResource("Animation_5o64r")
+&"RESET": SubResource("Animation_514r8"),
+&"damaged": SubResource("Animation_3ms04"),
+&"pointer": SubResource("Animation_5o64r")
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pjbg3"]

@@ -64,7 +64,7 @@ func _on_item_button_down() -> void:
 	for child in itens_container.get_children():
 		child.queue_free()
 	
-	for item in PlayerInventory.inventory.values():		
+	for item in PlayerInventory.inventory.values():
 		var button = Button.new()
 		button.text = item["item"]["name"]
 		
@@ -91,21 +91,35 @@ func _selected_item(item) -> void:
 		
 	selected_item = item
 	
-	if item["item"]["type"] == "damage":
-		player.can_select = false
-		player.is_selected = false
-		
-		if item["item"]["selection"] == "multiple":
+	var points = item["item"]["points"]
+	var effect_type = item["item"]["effect_type"]
+	var target_scope = item["item"]["target_scope"]
+	
+	match effect_type:
+		"damage":
+			player.can_select = false
+			player.is_selected = false
+			
+			match target_scope:
+				"single":
+					for enemy in enemies:
+						enemy.can_select = true
+					
+					var first = enemies.filter(func(enemy): return enemy.visible).front()
+					
+					first.is_selected = true
+				
+				"multiple":
+					for enemy in enemies:
+						enemy.can_select = true
+						enemy.is_selected = true
+		"heal": 
+			player.can_select = true
+			player.is_selected = true
+
 			for enemy in enemies:
-				enemy.can_select = true
-				enemy.is_selected = true
-	else:
-		player.can_select = true
-		player.is_selected = true
-		
-		for enemy in enemies:
-			enemy.can_select = false
-			enemy.is_selected = false
+				enemy.can_select = false
+				enemy.is_selected = false
 
 func _execute_turn() -> void:
 	player.can_select = false
@@ -195,21 +209,24 @@ func _on_item_back_button_down() -> void:
 
 func _use_item(player, item) -> void:
 	var points = item["item"]["points"]
+	var effect_type = item["item"]["effect_type"]
+	var target_scope = item["item"]["target_scope"]
+	var item_key = Items.get_key_by_name(item["item"]["name"])
 	
-	if item["item"]["type"] == "heal":
+	if effect_type == "heal":
 		player.health_component.heal(points)
 		battle_log.text = "Você curou " + str(points) + " pontos de vida "
-		PlayerInventory.update_item("potion", -1)
 	
-	if item["item"]["type"] == "damage":
-		if item["item"]["selection"] == "multiple":
+	if effect_type == "damage":
+		if target_scope == "multiple":
 			for enemy in enemies:
 				enemy.health_component.take_damage(points)
 				battle_log.text = player.name + " causou " + str(points) + " de dano a cada inimigo"
-		else:
-			pass
-
-		PlayerInventory.update_item("granade", -1)
+		elif target_scope == "single":
+			selected_enemy.health_component.take_damage(points)
+			battle_log.text = "Você causou " + str(points) + " de dano ao " + selected_enemy.name
+	
+	PlayerInventory.update_item(item_key, -1)
 
 func _on_enemy_selected(selected_enemy: BaseCharacter):
 	self.selected_enemy = selected_enemy
