@@ -95,12 +95,12 @@ func _selected_item(item) -> void:
 	var target_scope = item["item"]["target_scope"]
 	
 	match effect_type:
-		"damage":
+		Item.EffectType.DAMAGE:
 			player.can_select = false
 			player.is_selected = false
 			
 			match target_scope:
-				"single":
+				Item.TargetScope.SINGLE:
 					for enemy in enemies:
 						enemy.can_select = true
 					
@@ -108,11 +108,11 @@ func _selected_item(item) -> void:
 					
 					first.is_selected = true
 				
-				"multiple":
+				Item.TargetScope.MULTIPLE:
 					for enemy in enemies:
 						enemy.can_select = true
 						enemy.is_selected = true
-		"heal": 
+		Item.EffectType.HEAL: 
 			player.can_select = true
 			player.is_selected = true
 
@@ -212,16 +212,16 @@ func _use_item(player, item) -> void:
 	var target_scope = item["item"]["target_scope"]
 	var item_key = Items.get_key_by_name(item["item"]["name"])
 	
-	if effect_type == "heal":
+	if effect_type == Item.EffectType.HEAL:
 		player.health_component.heal(points)
 		battle_log.text = "Você curou " + str(points) + " pontos de vida "
 	
-	if effect_type == "damage":
-		if target_scope == "multiple":
+	if effect_type == Item.EffectType.DAMAGE:
+		if target_scope == Item.TargetScope.MULTIPLE:
 			for enemy in enemies:
 				enemy.health_component.take_damage(points)
 				battle_log.text = player.name + " causou " + str(points) + " de dano a cada inimigo"
-		elif target_scope == "single":
+		elif target_scope == Item.TargetScope.SINGLE:
 			selected_enemy.health_component.take_damage(points)
 			battle_log.text = "Você causou " + str(points) + " de dano ao " + selected_enemy.name
 	
