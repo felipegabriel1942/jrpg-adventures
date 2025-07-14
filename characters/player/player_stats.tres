@@ -5,5 +5,5 @@
 [resource]
 script = ExtResource("1_8nxox")
 health = 10
-attack = 2
+attack = 4
 defense = 3

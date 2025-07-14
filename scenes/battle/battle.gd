@@ -26,11 +26,16 @@ enum PlayerAction {
 
 var state: BattleState
 var player_action: PlayerAction
-var selected_item
+var selected_item: ItemResource
 var enemies: Array[BaseCharacter] = []
 var selected_enemy
 
 func _ready():
+	
+	PlayerInventory.add_item("potion", 2)
+	PlayerInventory.add_item("granade", 1)
+	PlayerInventory.add_item("throwing_knife", 1)
+	
 	state = BattleState.IDLE
 	
 	for node in enemies_container.get_children():
@@ -63,12 +68,15 @@ func _on_item_button_down() -> void:
 	for child in itens_container.get_children():
 		child.queue_free()
 	
-	for item in PlayerInventory.inventory.values():
+	for item_id in PlayerInventory.get_all_items():
+		var item = ItemDatabase.itens.get(item_id) as ItemResource
+		var quantity = PlayerInventory.get_quantity(item_id)
+		
 		var button = Button.new()
-		button.text = item["item"]["name"]
+		button.text = item.name
 		
 		var label = Label.new()
-		label.text = str(item["amount"])
+		label.text = str(quantity)
 		
 		var hbox = HBoxContainer.new()
 		
@@ -76,7 +84,7 @@ func _on_item_button_down() -> void:
 		button.alignment = 0
 		button.flat = true
 		button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
-		button.button_down.connect(_selected_item.bind(item))
+		button.button_down.connect(_on_item_selected.bind(item))
 		
 		hbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		
@@ -85,14 +93,13 @@ func _on_item_button_down() -> void:
 
 		itens_container.add_child(hbox)
 
-func _selected_item(item) -> void:
+func _on_item_selected(item: ItemResource) -> void:
 	player_action = PlayerAction.ITEM
 		
 	selected_item = item
 	
-	var points = item["item"]["points"]
-	var effect_type = item["item"]["effect_type"]
-	var target_scope = item["item"]["target_scope"]
+	var effect_type = item.effect_type
+	var target_scope = item.target_scope
 	
 	match effect_type:
 		Item.EffectType.DAMAGE:
@@ -102,6 +109,7 @@ func _selected_item(item) -> void:
 			match target_scope:
 				Item.TargetScope.SINGLE:
 					for enemy in enemies:
+						enemy.is_selected = false
 						enemy.can_select = true
 					
 					var first = enemies.filter(func(enemy): return enemy.visible).front()
@@ -112,6 +120,7 @@ func _selected_item(item) -> void:
 					for enemy in enemies:
 						enemy.can_select = true
 						enemy.is_selected = true
+
 		Item.EffectType.HEAL: 
 			player.can_select = true
 			player.is_selected = true
@@ -132,10 +141,9 @@ func _execute_turn() -> void:
 	if player.health_component.is_alive():
 		state = BattleState.PLAYER_ACTION
 		
-		if player_action == PlayerAction.ITEM:
-			_use_item(player, selected_item)
-		elif player_action == PlayerAction.ATTACK:
-			_attack(player, selected_enemy)
+		match player_action:
+			PlayerAction.ITEM: _use_item()
+			PlayerAction.ATTACK: _attack(player, selected_enemy)
 			
 		await get_tree().create_timer(WAIT_TIME_AFTER_ATTACK).timeout
 	
@@ -206,26 +214,13 @@ func _on_item_back_button_down() -> void:
 	for enemy in enemies:
 		enemy.is_selected = false
 
-func _use_item(player, item) -> void:
-	var points = item["item"]["points"]
-	var effect_type = item["item"]["effect_type"]
-	var target_scope = item["item"]["target_scope"]
-	var item_key = Items.get_key_by_name(item["item"]["name"])
-	
-	if effect_type == Item.EffectType.HEAL:
-		player.health_component.heal(points)
-		battle_log.text = "Você curou " + str(points) + " pontos de vida "
-	
-	if effect_type == Item.EffectType.DAMAGE:
-		if target_scope == Item.TargetScope.MULTIPLE:
-			for enemy in enemies:
-				enemy.health_component.take_damage(points)
-				battle_log.text = player.name + " causou " + str(points) + " de dano a cada inimigo"
-		elif target_scope == Item.TargetScope.SINGLE:
-			selected_enemy.health_component.take_damage(points)
-			battle_log.text = "Você causou " + str(points) + " de dano ao " + selected_enemy.name
-	
-	PlayerInventory.update_item(item_key, -1)
+func _use_item() -> void:
+	match selected_item.effect_type:
+		ItemResource.EffectType.HEAL: selected_item.use([player])
+		ItemResource.EffectType.DAMAGE:
+			match selected_item.target_scope:
+				ItemResource.TargetScope.SINGLE: selected_item.use([selected_enemy])
+				ItemResource.TargetScope.MULTIPLE: selected_item.use(enemies)
 
 func _on_enemy_selected(selected_enemy: BaseCharacter):
 	self.selected_enemy = selected_enemy

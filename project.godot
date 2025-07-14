@@ -17,8 +17,8 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-PlayerInventory="*res://scripts/player_inventory.gd"
-Items="*res://scripts/items.gd"
+ItemDatabase="*res://scripts/core/item_database.gd"
+PlayerInventory="*res://scripts/core/inventory.gd"
 
 [display]
 

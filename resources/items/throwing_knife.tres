@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="DamageItemResource" load_steps=2 format=3 uid="uid://c4dohm3gpdxu8"]
+
+[ext_resource type="Script" uid="uid://dk2fg5d5xq4b1" path="res://scripts/damage_item_resource.gd" id="1_dnw15"]
+
+[resource]
+script = ExtResource("1_dnw15")
+id = "throwing_knife"
+name = "Faca de Arremesso"
+points = 5
+effect_type = 1
+target_scope = 0
+metadata/_custom_type_script = "uid://d06gbcpv6hw0j"

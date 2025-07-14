@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="HealItemResource" load_steps=2 format=3 uid="uid://sev70oqg32cp"]
+
+[ext_resource type="Script" uid="uid://xlpce1yh4wol" path="res://scripts/heal_item_resource.gd" id="1_h3xj8"]
+
+[resource]
+script = ExtResource("1_h3xj8")
+id = "potion"
+name = "Poção"
+points = 10
+effect_type = 0
+target_scope = 0
+metadata/_custom_type_script = "uid://xlpce1yh4wol"
