@@ -28,13 +28,10 @@ var state: BattleState
 var player_action: PlayerAction
 var selected_item: ItemResource
 var enemies: Array[BaseCharacter] = []
-var selected_enemy
+var selected_enemy: BaseCharacter
 
 func _ready():
-	
-	PlayerInventory.add_item("potion", 2)
-	PlayerInventory.add_item("granade", 1)
-	PlayerInventory.add_item("throwing_knife", 1)
+	Global.current_game_mode = Global.GameMode.BATTLE
 	
 	state = BattleState.IDLE
 	
@@ -102,12 +99,12 @@ func _on_item_selected(item: ItemResource) -> void:
 	var target_scope = item.target_scope
 	
 	match effect_type:
-		Item.EffectType.DAMAGE:
+		ItemResource.EffectType.DAMAGE:
 			player.can_select = false
 			player.is_selected = false
 			
 			match target_scope:
-				Item.TargetScope.SINGLE:
+				ItemResource.TargetScope.SINGLE:
 					for enemy in enemies:
 						enemy.is_selected = false
 						enemy.can_select = true
@@ -116,12 +113,12 @@ func _on_item_selected(item: ItemResource) -> void:
 					
 					first.is_selected = true
 				
-				Item.TargetScope.MULTIPLE:
+				ItemResource.TargetScope.MULTIPLE:
 					for enemy in enemies:
 						enemy.can_select = true
 						enemy.is_selected = true
 
-		Item.EffectType.HEAL: 
+		ItemResource.EffectType.HEAL: 
 			player.can_select = true
 			player.is_selected = true
 
@@ -157,6 +154,9 @@ func _execute_turn() -> void:
 
 	if !is_enemies_alive or !player.health_component.is_alive():
 		state = BattleState.END
+		
+		if !is_enemies_alive:
+			get_tree().change_scene_to_file("res://scenes/world/world.tscn")
 	else:
 		state = BattleState.IDLE
 

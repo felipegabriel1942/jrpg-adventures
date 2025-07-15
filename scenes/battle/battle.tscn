@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://dnsgukwu73kqe"]
+[gd_scene load_steps=12 format=3 uid="uid://dnsgukwu73kqe"]
 
 [ext_resource type="PackedScene" uid="uid://duf4bf7b442q5" path="res://characters/player/player.tscn" id="1_qvbmh"]
 [ext_resource type="Script" uid="uid://ddn8nqdq0px4l" path="res://scenes/battle/battle.gd" id="1_y5c41"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://danc2worq1cc6" path="res://assets/sprites/tilesets/plains.png" id="4_0yh6x"]
 [ext_resource type="Texture2D" uid="uid://jypw60nwk4s1" path="res://assets/sprites/tilesets/grass.png" id="5_h0kxc"]
 [ext_resource type="Texture2D" uid="uid://toknbuaae5dd" path="res://assets/sprites/tilesets/decor_16x16.png" id="6_fh7rg"]
+[ext_resource type="AudioStream" uid="uid://euw4we4wm15t" path="res://assets/music/2019-12-11_-_Retro_Platforming_-_David_Fesliyan.mp3" id="7_pll4o"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_h0kxc"]
 texture = ExtResource("4_0yh6x")
@@ -289,6 +290,11 @@ layer_0/tile_data = PackedInt32Array(589827, 131072, 2, 589828, 131072, 2, 58982
 layer_1/name = "ground_decor"
 layer_1/z_index = -1
 layer_1/tile_data = PackedInt32Array(524296, 65538, 0, 262154, 196610, 0, 393231, 2, 0, 589840, 131074, 0, 524300, 131074, 0, 196625, 65538, 0, 131085, 65538, 0, 524309, 2, 4, 196629, 131074, 4, 196610, 2, 4, 524293, 196610, 4, 196613, 65538, 4, 524290, 65538, 4)
+
+[node name="Music" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("7_pll4o")
+autoplay = true
+bus = &"Music"
 
 [connection signal="selected" from="Player" to="." method="_on_player_selected"]
 [connection signal="selected" from="EnemiesContainer/Slime" to="." method="_on_enemy_selected"]
