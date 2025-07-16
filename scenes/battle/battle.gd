@@ -8,7 +8,9 @@ extends Node2D
 @onready var itens_panel = $HUD/BattlePanel/PanelsContainer/ItensPanel
 @onready var actions_panel = $HUD/BattlePanel/PanelsContainer/ActionsPanel
 @onready var itens_container = $HUD/BattlePanel/PanelsContainer/ItensPanel/VBoxContainer2/ItensContainer
-@onready var enemies_container = $EnemiesContainer
+@onready var enemies_positions: Node2D = $EnemiesPositions
+
+var slime = preload("res://characters/slime/slime.tscn")
 
 const WAIT_TIME_AFTER_ATTACK := 2.0
 
@@ -31,18 +33,27 @@ var enemies: Array[BaseCharacter] = []
 var selected_enemy: BaseCharacter
 
 func _ready():
+	randomize()
 	Global.current_game_mode = Global.GameMode.BATTLE
-	
 	state = BattleState.IDLE
-	
-	for node in enemies_container.get_children():
-		if node is BaseCharacter:
-			enemies.append(node)
+	_generate_enemies()
 
 func _physics_process(delta):
 	_update_actions_disabled_status()
 	_update_battle_log()
 	_update_player_life_label()
+	
+func _generate_enemies() -> void:
+	var number_of_enemies = randi_range(1, 3)
+	
+	var positions = enemies_positions.get_children()
+	
+	for i in range(number_of_enemies):
+		var enemy = slime.instantiate();
+		enemies.append(enemy)
+		enemy.selected.connect(Callable(self, "_on_enemy_selected"))
+		enemy.position = positions[i].position
+		add_child(enemy)
 
 func _on_attack_button_down() -> void:
 	player_action = PlayerAction.ATTACK

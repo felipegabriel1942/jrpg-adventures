@@ -21,8 +21,7 @@ func _process(delta: float) -> void:
 		
 	if Input.is_action_just_pressed("open_menu"):
 		menu_panel.visible = !menu_panel.visible
-		
-	get_tree().paused = menu_panel.visible
+		get_tree().paused = menu_panel.visible
 
 func _on_monster_area_entered(body: Node2D) -> void:
 	is_in_monster_area = true
