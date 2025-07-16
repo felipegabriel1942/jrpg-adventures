@@ -7,6 +7,7 @@ signal selected(char)
 @onready var animation_player = $AnimationPlayer
 @onready var selection_indicator = $SelectionIndicator
 
+@export var character_name: String
 @export var stats: Stats
 @export var health_component: HealthComponent
 

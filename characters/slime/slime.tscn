@@ -162,6 +162,7 @@ animations = [{
 
 [node name="Slime" node_paths=PackedStringArray("health_component") instance=ExtResource("1_rw6dr")]
 scale = Vector2(3, 3)
+character_name = "Slime"
 stats = ExtResource("2_uvqpu")
 health_component = NodePath("HealthComponent")
 

@@ -9,6 +9,7 @@ extends Node2D
 @onready var actions_panel = $HUD/BattlePanel/PanelsContainer/ActionsPanel
 @onready var itens_container = $HUD/BattlePanel/PanelsContainer/ItensPanel/VBoxContainer2/ItensContainer
 @onready var enemies_positions: Node2D = $EnemiesPositions
+@onready var enemies_info_container: VBoxContainer = $HUD/BattlePanel/PanelsContainer/EnemyPanel/EnemiesInfoContainer
 
 var slime = preload("res://characters/slime/slime.tscn")
 
@@ -49,11 +50,14 @@ func _generate_enemies() -> void:
 	var positions = enemies_positions.get_children()
 	
 	for i in range(number_of_enemies):
+		#TODO: No momento esta instanciando apenas o Slime, no futuro precisa ser instanciado outros
 		var enemy = slime.instantiate();
-		enemies.append(enemy)
 		enemy.selected.connect(Callable(self, "_on_enemy_selected"))
 		enemy.position = positions[i].position
+		enemies.append(enemy)
 		add_child(enemy)
+		
+	_update_enemies_life_label()
 
 func _on_attack_button_down() -> void:
 	player_action = PlayerAction.ATTACK
@@ -153,6 +157,8 @@ func _execute_turn() -> void:
 			PlayerAction.ITEM: _use_item()
 			PlayerAction.ATTACK: _attack(player, selected_enemy)
 			
+		_update_enemies_life_label()
+		
 		await get_tree().create_timer(WAIT_TIME_AFTER_ATTACK).timeout
 	
 	for enemy in enemies:
@@ -191,6 +197,20 @@ func _attack(attacker: BaseCharacter, defensor: BaseCharacter) -> void:
 
 func _update_player_life_label() -> void:
 	player_life_label.text = "Player " + "%02d" % player.health_component.get_current_health() + "/" + "%02d" % player.stats.health
+
+func _update_enemies_life_label() -> void:
+	for child in enemies_info_container.get_children():
+		child.queue_free()
+	
+	var counter = 1
+	
+	for enemy in enemies:
+		var label = Label.new()
+		label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_FILL
+		label.text = enemy.character_name + "(" + str(counter) + ")" + " %02d" % enemy.health_component.get_current_health() + "/" + "%02d" % enemy.stats.health
+		enemies_info_container.add_child(label)
+		counter += 1
 
 func _update_battle_log() -> void:
 	var is_enemies_alive = _are_enemies_alive()

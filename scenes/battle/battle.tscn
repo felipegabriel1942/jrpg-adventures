@@ -179,7 +179,7 @@ grow_vertical = 2
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HUD/BattlePanel/PanelsContainer/EnemyPanel"]
+[node name="EnemiesInfoContainer" type="VBoxContainer" parent="HUD/BattlePanel/PanelsContainer/EnemyPanel"]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
@@ -190,11 +190,6 @@ offset_right = -10.0
 offset_bottom = -10.0
 grow_horizontal = 2
 grow_vertical = 2
-
-[node name="Label" type="Label" parent="HUD/BattlePanel/PanelsContainer/EnemyPanel/VBoxContainer"]
-layout_mode = 2
-text = "Slime (a)
-"
 
 [node name="PlayerPanel" type="Panel" parent="HUD/BattlePanel/PanelsContainer"]
 layout_mode = 2
