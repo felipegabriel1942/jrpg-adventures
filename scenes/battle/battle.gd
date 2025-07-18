@@ -1,6 +1,6 @@
 extends Node2D
 
-@onready var player = $Player
+@onready var player: Player = $Player
 @onready var battle_log = $HUD/BattleLogPanel/Label
 @onready var attack_button = $HUD/BattlePanel/PanelsContainer/ActionsPanel/VBoxContainer/AttackButton
 @onready var item_button = $HUD/BattlePanel/PanelsContainer/ActionsPanel/VBoxContainer/ItemButton
@@ -173,6 +173,10 @@ func _execute_turn() -> void:
 		state = BattleState.END
 		
 		if !is_enemies_alive:
+			
+			for enemy in enemies:
+				player.gain_experience(enemy.stats.experience)
+			
 			get_tree().change_scene_to_file("res://scenes/world/world.tscn")
 	else:
 		state = BattleState.IDLE

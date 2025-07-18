@@ -4,6 +4,8 @@
 
 [resource]
 script = ExtResource("1_vop4b")
-health = 7
+health = 5
 attack = 3
 defense = 2
+level = 1
+experience = 250

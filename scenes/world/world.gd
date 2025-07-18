@@ -20,8 +20,8 @@ func _process(delta: float) -> void:
 		get_tree().change_scene_to_file("res://scenes/battle/battle.tscn")
 		
 	if Input.is_action_just_pressed("open_menu"):
-		menu_panel.visible = !menu_panel.visible
-		get_tree().paused = menu_panel.visible
+		menu_panel.visible = true
+		get_tree().paused = true
 
 func _on_monster_area_entered(body: Node2D) -> void:
 	is_in_monster_area = true

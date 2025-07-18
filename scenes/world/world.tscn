@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://cwy6n0rcecf4m"]
+[gd_scene load_steps=14 format=3 uid="uid://cwy6n0rcecf4m"]
 
 [ext_resource type="PackedScene" uid="uid://duf4bf7b442q5" path="res://characters/player/player.tscn" id="1_dphjl"]
 [ext_resource type="Script" uid="uid://d28prupunmikh" path="res://scenes/world/world.gd" id="1_t5ptc"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://toknbuaae5dd" path="res://assets/sprites/tilesets/decor_16x16.png" id="4_6m72w"]
 [ext_resource type="Texture2D" uid="uid://dnu5d7slo6b4a" path="res://assets/sprites/tilesets/objects.png" id="5_v5dby"]
 [ext_resource type="AudioStream" uid="uid://c5x0fwxfk6gx5" path="res://assets/music/2019-12-09_-_Retro_Forest_-_David_Fesliyan.mp3" id="7_bq33v"]
+[ext_resource type="Script" uid="uid://4kqxbwpx6mxm" path="res://scenes/world/menu_panel.gd" id="8_j2gmx"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_1fp7r"]
 texture = ExtResource("2_sl2e5")
@@ -213,6 +214,7 @@ offset_right = 1345.0
 offset_bottom = 672.0
 
 [node name="MenuPanel" type="Panel" parent="HUD"]
+process_mode = 2
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -220,6 +222,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("8_j2gmx")
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_monster_area_entered"]
 [connection signal="body_exited" from="Area2D" to="." method="_on_monster_area_exited"]

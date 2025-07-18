@@ -1,8 +1,9 @@
-[gd_scene load_steps=35 format=3 uid="uid://duf4bf7b442q5"]
+[gd_scene load_steps=36 format=3 uid="uid://duf4bf7b442q5"]
 
 [ext_resource type="Texture2D" uid="uid://wfj25ongjxbc" path="res://characters/player/sprites/player.png" id="1_7op51"]
 [ext_resource type="PackedScene" uid="uid://7lycpldco6mf" path="res://characters/base/base_character.tscn" id="1_gm4si"]
 [ext_resource type="Resource" uid="uid://60iy2ew14mi0" path="res://characters/player/player_stats.tres" id="2_h3io0"]
+[ext_resource type="Script" uid="uid://ci383m6ml4cxq" path="res://characters/player/player.gd" id="2_ixbpm"]
 [ext_resource type="PackedScene" uid="uid://hu4d20tpjdig" path="res://components/player_movement_component.tscn" id="4_5dc8e"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kobb7"]
@@ -235,6 +236,7 @@ size = Vector2(13, 5)
 [node name="Player" node_paths=PackedStringArray("health_component") instance=ExtResource("1_gm4si")]
 scale = Vector2(3, 3)
 collision_mask = 2
+script = ExtResource("2_ixbpm")
 character_name = "Warrior"
 stats = ExtResource("2_h3io0")
 health_component = NodePath("HealthComponent")
