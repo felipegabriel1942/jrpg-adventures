@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://cwy6n0rcecf4m"]
+[gd_scene load_steps=22 format=3 uid="uid://cwy6n0rcecf4m"]
 
 [ext_resource type="PackedScene" uid="uid://duf4bf7b442q5" path="res://characters/player/player.tscn" id="1_dphjl"]
 [ext_resource type="Script" uid="uid://d28prupunmikh" path="res://scenes/world/world.gd" id="1_t5ptc"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://dnu5d7slo6b4a" path="res://assets/sprites/tilesets/objects.png" id="5_v5dby"]
 [ext_resource type="AudioStream" uid="uid://c5x0fwxfk6gx5" path="res://assets/music/2019-12-09_-_Retro_Forest_-_David_Fesliyan.mp3" id="7_bq33v"]
 [ext_resource type="Script" uid="uid://4kqxbwpx6mxm" path="res://scenes/world/menu_panel.gd" id="8_j2gmx"]
+[ext_resource type="Texture2D" uid="uid://wfj25ongjxbc" path="res://characters/player/sprites/player.png" id="9_1yooq"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_1fp7r"]
 texture = ExtResource("2_sl2e5")
@@ -171,6 +172,56 @@ sources/1 = SubResource("TileSetAtlasSource_6m72w")
 sources/2 = SubResource("TileSetAtlasSource_v5dby")
 sources/3 = SubResource("TileSetAtlasSource_t5ptc")
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_gb53w"]
+atlas = ExtResource("9_1yooq")
+region = Rect2(0, 48, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5qq27"]
+atlas = ExtResource("9_1yooq")
+region = Rect2(48, 48, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dlabj"]
+atlas = ExtResource("9_1yooq")
+region = Rect2(96, 48, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_srmg5"]
+atlas = ExtResource("9_1yooq")
+region = Rect2(144, 48, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_umvgx"]
+atlas = ExtResource("9_1yooq")
+region = Rect2(192, 48, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mxkvs"]
+atlas = ExtResource("9_1yooq")
+region = Rect2(240, 48, 48, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_m114p"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gb53w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5qq27")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dlabj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_srmg5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_umvgx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mxkvs")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
 [node name="World" type="Node2D"]
 script = ExtResource("1_t5ptc")
 
@@ -223,6 +274,68 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("8_j2gmx")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HUD/MenuPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MenuLinksPanel" type="Panel" parent="HUD/MenuPanel/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.3
+
+[node name="MenuContentPanel" type="Panel" parent="HUD/MenuPanel/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="HUD/MenuPanel/HBoxContainer/MenuContentPanel"]
+position = Vector2(101, 79)
+scale = Vector2(4, 4)
+sprite_frames = SubResource("SpriteFrames_m114p")
+autoplay = "default"
+flip_h = true
+
+[node name="PlayerNameLabel" type="Label" parent="HUD/MenuPanel/HBoxContainer/MenuContentPanel"]
+layout_mode = 0
+offset_left = 238.0
+offset_top = 28.0
+offset_right = 287.0
+offset_bottom = 51.0
+text = "Player"
+
+[node name="PlayerHealthLabel" type="Label" parent="HUD/MenuPanel/HBoxContainer/MenuContentPanel"]
+layout_mode = 0
+offset_left = 237.0
+offset_top = 64.0
+offset_right = 476.0
+offset_bottom = 106.0
+theme_override_font_sizes/font_size = 30
+text = "PV 15/20"
+horizontal_alignment = 3
+
+[node name="PlayerLevelLabel" type="Label" parent="HUD/MenuPanel/HBoxContainer/MenuContentPanel"]
+layout_mode = 0
+offset_left = 238.0
+offset_top = 114.0
+offset_right = 474.0
+offset_bottom = 156.0
+theme_override_font_sizes/font_size = 30
+text = "NVL 2"
+horizontal_alignment = 3
+
+[node name="PlayerNextLevelLabel" type="Label" parent="HUD/MenuPanel/HBoxContainer/MenuContentPanel"]
+layout_mode = 0
+offset_left = 563.0
+offset_top = 113.0
+offset_right = 800.0
+offset_bottom = 155.0
+theme_override_font_sizes/font_size = 30
+text = "Próximo 200"
+horizontal_alignment = 3
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_monster_area_entered"]
 [connection signal="body_exited" from="Area2D" to="." method="_on_monster_area_exited"]

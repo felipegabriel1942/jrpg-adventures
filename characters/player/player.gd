@@ -32,3 +32,11 @@ func _has_experience_to_level_up() -> bool:
 		return stats.experience >= experience_per_level[next_level];
 	else:
 		return false
+
+func get_experience_to_next_level() -> int:
+	var next_level = stats.level + 1;
+	
+	if experience_per_level.has(next_level):
+		return experience_per_level[next_level] - stats.experience;
+	else:
+		return 0
