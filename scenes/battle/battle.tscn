@@ -1,7 +1,8 @@
-[gd_scene load_steps=11 format=3 uid="uid://dnsgukwu73kqe"]
+[gd_scene load_steps=12 format=3 uid="uid://dnsgukwu73kqe"]
 
 [ext_resource type="PackedScene" uid="uid://duf4bf7b442q5" path="res://characters/player/player.tscn" id="1_qvbmh"]
 [ext_resource type="Script" uid="uid://ddn8nqdq0px4l" path="res://scenes/battle/battle.gd" id="1_y5c41"]
+[ext_resource type="Texture2D" uid="uid://cw1ub5hthg4le" path="res://assets/sprites/icons/arrow_right.png" id="3_pll4o"]
 [ext_resource type="Texture2D" uid="uid://danc2worq1cc6" path="res://assets/sprites/tilesets/plains.png" id="4_0yh6x"]
 [ext_resource type="Texture2D" uid="uid://jypw60nwk4s1" path="res://assets/sprites/tilesets/grass.png" id="5_h0kxc"]
 [ext_resource type="Texture2D" uid="uid://toknbuaae5dd" path="res://assets/sprites/tilesets/decor_16x16.png" id="6_fh7rg"]
@@ -275,6 +276,149 @@ size_flags_vertical = 8
 mouse_default_cursor_shape = 2
 text = "Voltar"
 
+[node name="LevelUpPanel" type="Panel" parent="HUD"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -187.5
+offset_top = -169.5
+offset_right = 193.5
+offset_bottom = 110.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TitleLabel" type="Label" parent="HUD/LevelUpPanel"]
+layout_mode = 2
+offset_left = 20.0
+offset_top = 26.0
+offset_right = 369.0
+offset_bottom = 49.0
+text = "Você subiu de Level!"
+horizontal_alignment = 1
+
+[node name="LevelLabel" type="Label" parent="HUD/LevelUpPanel"]
+layout_mode = 2
+offset_left = 92.0
+offset_top = 87.0
+offset_right = 137.0
+offset_bottom = 110.0
+text = "Level "
+horizontal_alignment = 1
+
+[node name="ArrowRight" type="Sprite2D" parent="HUD/LevelUpPanel"]
+position = Vector2(215, 98)
+scale = Vector2(2, 2)
+texture = ExtResource("3_pll4o")
+
+[node name="ArrowRight2" type="Sprite2D" parent="HUD/LevelUpPanel"]
+position = Vector2(214, 136)
+scale = Vector2(2, 2)
+texture = ExtResource("3_pll4o")
+
+[node name="ArrowRight3" type="Sprite2D" parent="HUD/LevelUpPanel"]
+position = Vector2(214, 175)
+scale = Vector2(2, 2)
+texture = ExtResource("3_pll4o")
+
+[node name="ArrowRight4" type="Sprite2D" parent="HUD/LevelUpPanel"]
+position = Vector2(214, 216)
+scale = Vector2(2, 2)
+texture = ExtResource("3_pll4o")
+
+[node name="OldLevelValueLabel" type="Label" parent="HUD/LevelUpPanel"]
+layout_mode = 2
+offset_left = 162.0
+offset_top = 87.0
+offset_right = 172.0
+offset_bottom = 110.0
+text = "1"
+horizontal_alignment = 1
+
+[node name="NewLevelValueLabel" type="Label" parent="HUD/LevelUpPanel"]
+layout_mode = 2
+offset_left = 259.0
+offset_top = 87.0
+offset_right = 269.0
+offset_bottom = 110.0
+text = "2"
+horizontal_alignment = 1
+
+[node name="HealthLabel" type="Label" parent="HUD/LevelUpPanel"]
+layout_mode = 0
+offset_left = 92.0
+offset_top = 125.0
+offset_right = 140.0
+offset_bottom = 148.0
+text = "HP"
+
+[node name="AttackLabel" type="Label" parent="HUD/LevelUpPanel"]
+layout_mode = 0
+offset_left = 90.0
+offset_top = 163.0
+offset_right = 152.0
+offset_bottom = 186.0
+text = "Ataque"
+
+[node name="DefenseLabel" type="Label" parent="HUD/LevelUpPanel"]
+layout_mode = 0
+offset_left = 91.0
+offset_top = 203.0
+offset_right = 153.0
+offset_bottom = 226.0
+text = "Defesa"
+
+[node name="OldHealthValueLabel" type="Label" parent="HUD/LevelUpPanel"]
+offset_left = 161.0
+offset_top = 124.0
+offset_right = 171.0
+offset_bottom = 147.0
+text = "10"
+horizontal_alignment = 1
+
+[node name="OldAttackValueLabel" type="Label" parent="HUD/LevelUpPanel"]
+offset_left = 165.0
+offset_top = 164.0
+offset_right = 175.0
+offset_bottom = 187.0
+text = "5"
+horizontal_alignment = 1
+
+[node name="OldDefenseValueLabel" type="Label" parent="HUD/LevelUpPanel"]
+offset_left = 165.0
+offset_top = 204.0
+offset_right = 175.0
+offset_bottom = 227.0
+text = "3"
+horizontal_alignment = 1
+
+[node name="NewAttackValueLabel" type="Label" parent="HUD/LevelUpPanel"]
+offset_left = 258.0
+offset_top = 163.0
+offset_right = 268.0
+offset_bottom = 186.0
+text = "8"
+horizontal_alignment = 1
+
+[node name="NewDefenseValueLabel" type="Label" parent="HUD/LevelUpPanel"]
+offset_left = 258.0
+offset_top = 203.0
+offset_right = 268.0
+offset_bottom = 226.0
+text = "6"
+horizontal_alignment = 1
+
+[node name="NewHealthValueLabel" type="Label" parent="HUD/LevelUpPanel"]
+offset_left = 256.0
+offset_top = 124.0
+offset_right = 275.0
+offset_bottom = 147.0
+text = "15"
+horizontal_alignment = 1
+
 [node name="TileMap" type="TileMap" parent="."]
 z_index = -1
 scale = Vector2(3, 3)
@@ -292,6 +436,7 @@ stream = ExtResource("7_pll4o")
 autoplay = true
 bus = &"Music"
 
+[connection signal="has_gained_level" from="Player" to="." method="_on_player_has_gained_level"]
 [connection signal="selected" from="Player" to="." method="_on_player_selected"]
 [connection signal="button_down" from="HUD/BattlePanel/PanelsContainer/ActionsPanel/VBoxContainer/AttackButton" to="." method="_on_attack_button_down"]
 [connection signal="button_down" from="HUD/BattlePanel/PanelsContainer/ActionsPanel/VBoxContainer/ItemButton" to="." method="_on_item_button_down"]

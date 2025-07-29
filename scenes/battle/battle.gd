@@ -10,6 +10,7 @@ extends Node2D
 @onready var itens_container = $HUD/BattlePanel/PanelsContainer/ItensPanel/VBoxContainer2/ItensContainer
 @onready var enemies_positions: Node2D = $EnemiesPositions
 @onready var enemies_info_container: VBoxContainer = $HUD/BattlePanel/PanelsContainer/EnemyPanel/EnemiesInfoContainer
+@onready var level_up_panel: Panel = $HUD/LevelUpPanel
 
 var slime = preload("res://characters/slime/slime.tscn")
 
@@ -32,6 +33,7 @@ var player_action: PlayerAction
 var selected_item: ItemResource
 var enemies: Array[BaseCharacter] = []
 var selected_enemy: BaseCharacter
+var has_gained_level: bool = false
 
 func _ready():
 	randomize()
@@ -177,7 +179,8 @@ func _execute_turn() -> void:
 			for enemy in enemies:
 				player.gain_experience(enemy.stats.experience)
 			
-			get_tree().change_scene_to_file("res://scenes/world/world.tscn")
+			if !has_gained_level:
+				get_tree().change_scene_to_file("res://scenes/world/world.tscn")
 	else:
 		state = BattleState.IDLE
 
@@ -270,3 +273,30 @@ func _on_enemy_selected(selected_enemy: BaseCharacter):
 func _on_player_selected(player: BaseCharacter):
 	if !player.is_selected:
 		_execute_turn()
+
+func _on_player_has_gained_level(old_level: int, old_health: int, old_attack: int, old_defense: int) -> void:
+	has_gained_level = true
+	level_up_panel.visible = true
+	
+	print(player.stats.attack)
+	
+	for child in level_up_panel.get_children():
+		if child.name == "OldLevelValueLabel":
+			child.text = str(old_level)
+		if child.name == "NewLevelValueLabel":
+			child.text = str(player.stats.level)
+		if child.name == "OldHealthValueLabel":
+			child.text = str(old_health)
+		if child.name == "NewHealthValueLabel":
+			child.text = str(player.stats.health)
+		if child.name == "OldAttackValueLabel":
+			child.text = str(old_attack)
+		if child.name == "NewAttackValueLabel":
+			child.text = str(player.stats.attack)
+		if child.name == "OldDefenseValueLabel":
+			child.text = str(old_defense)
+		if child.name == "NewDefenseValueLabel":
+			child.text = str(player.stats.defense)
+	
+	await get_tree().create_timer(10).timeout
+	get_tree().change_scene_to_file("res://scenes/world/world.tscn")
