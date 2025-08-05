@@ -7,3 +7,6 @@ script = ExtResource("1_8nxox")
 health = 10
 attack = 4
 defense = 3
+level = 1
+experience = 0
+current_health = 10

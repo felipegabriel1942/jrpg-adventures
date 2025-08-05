@@ -28,6 +28,8 @@ func _level_up() -> void:
 	stats.attack += 2
 	stats.defense += 1
 	
+	health_component.set_current_health(stats.health)
+	
 	has_gained_level.emit(old_level, old_health, old_attack, old_defense)
 
 func _has_experience_to_level_up() -> bool:

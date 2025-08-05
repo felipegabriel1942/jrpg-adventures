@@ -10,8 +10,15 @@ signal hurt()
 
 var _current_health: int
 
+func _exit_tree() -> void:
+	if get_parent().name == "Player":
+		Global.player_current_health = _current_health
+
 func _ready():
-	_current_health = stats.health
+	if get_parent().name == "Player":
+		_current_health = Global.player_current_health
+	else:
+		_current_health = stats.health
 
 func take_damage(damage: int):
 	_current_health = _current_health - damage
@@ -35,3 +42,6 @@ func get_current_health():
 
 func is_alive():
 	return _current_health > 0
+
+func set_current_health(current_health: int) -> void:
+	_current_health = current_health

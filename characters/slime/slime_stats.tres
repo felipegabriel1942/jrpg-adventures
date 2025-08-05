@@ -9,3 +9,4 @@ attack = 3
 defense = 2
 level = 1
 experience = 250
+current_health = 5

@@ -278,8 +278,6 @@ func _on_player_has_gained_level(old_level: int, old_health: int, old_attack: in
 	has_gained_level = true
 	level_up_panel.visible = true
 	
-	print(player.stats.attack)
-	
 	for child in level_up_panel.get_children():
 		if child.name == "OldLevelValueLabel":
 			child.text = str(old_level)
