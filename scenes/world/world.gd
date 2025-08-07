@@ -1,5 +1,7 @@
 extends Node2D
 
+@export var random_encounter: bool = true
+
 @onready var area_2d: Area2D = $Area2D
 @onready var player: BaseCharacter = $Player
 @onready var menu_panel: Panel = $HUD/MenuPanel
@@ -15,7 +17,7 @@ func _ready() -> void:
 		player.global_position = Global.player_position
 		
 func _process(delta: float) -> void:
-	if _should_encounter_monster():
+	if _should_encounter_monster() and random_encounter:
 		Global.player_position = player.global_position
 		get_tree().change_scene_to_file("res://scenes/battle/battle.tscn")
 		
