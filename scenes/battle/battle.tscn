@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://dnsgukwu73kqe"]
+[gd_scene load_steps=16 format=3 uid="uid://dnsgukwu73kqe"]
 
 [ext_resource type="PackedScene" uid="uid://duf4bf7b442q5" path="res://characters/player/player.tscn" id="1_qvbmh"]
 [ext_resource type="Script" uid="uid://ddn8nqdq0px4l" path="res://scenes/battle/battle.gd" id="1_y5c41"]
@@ -7,6 +7,10 @@
 [ext_resource type="Texture2D" uid="uid://jypw60nwk4s1" path="res://assets/sprites/tilesets/grass.png" id="5_h0kxc"]
 [ext_resource type="Texture2D" uid="uid://toknbuaae5dd" path="res://assets/sprites/tilesets/decor_16x16.png" id="6_fh7rg"]
 [ext_resource type="AudioStream" uid="uid://euw4we4wm15t" path="res://assets/music/2019-12-11_-_Retro_Platforming_-_David_Fesliyan.mp3" id="7_pll4o"]
+[ext_resource type="AudioStream" uid="uid://dmttyw7sege2t" path="res://assets/sfx/thud-291047.mp3" id="8_agsc7"]
+[ext_resource type="AudioStream" uid="uid://bet42bwfa6tv4" path="res://assets/sfx/sword-sound-260274.mp3" id="8_py4tk"]
+[ext_resource type="AudioStream" uid="uid://cllyu1g1rrp1u" path="res://assets/sfx/small-explosion-94980.mp3" id="10_fisqk"]
+[ext_resource type="PackedScene" uid="uid://ssmj6db24iru" path="res://components/scene_transition_animation.tscn" id="10_oiw7q"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_h0kxc"]
 texture = ExtResource("4_0yh6x")
@@ -441,6 +445,20 @@ layer_1/tile_data = PackedInt32Array(524296, 65538, 0, 262154, 196610, 0, 393231
 stream = ExtResource("7_pll4o")
 autoplay = true
 bus = &"Music"
+
+[node name="ThudSFX" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("8_agsc7")
+bus = &"SFX"
+
+[node name="SwordSFX" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("8_py4tk")
+bus = &"SFX"
+area_mask = 0
+
+[node name="ExplosionSFX" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("10_fisqk")
+
+[node name="SceneTransitionAnimation" parent="." instance=ExtResource("10_oiw7q")]
 
 [connection signal="has_gained_level" from="Player" to="." method="_on_player_has_gained_level"]
 [connection signal="selected" from="Player" to="." method="_on_player_selected"]

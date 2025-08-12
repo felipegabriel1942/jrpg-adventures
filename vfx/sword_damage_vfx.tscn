@@ -1,0 +1,53 @@
+[gd_scene load_steps=8 format=3 uid="uid://i1fp43wa4aim"]
+
+[ext_resource type="Script" uid="uid://dgo7m4gqvsxje" path="res://vfx/damage_vfx.gd" id="1_jn7qf"]
+[ext_resource type="Texture2D" uid="uid://j7n7vxxnrlbg" path="res://assets/sprites/vfx/slash-effect.png" id="1_phdkp"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jn7qf"]
+atlas = ExtResource("1_phdkp")
+region = Rect2(0, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_founo"]
+atlas = ExtResource("1_phdkp")
+region = Rect2(24, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gb3ju"]
+atlas = ExtResource("1_phdkp")
+region = Rect2(48, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v3l7t"]
+atlas = ExtResource("1_phdkp")
+region = Rect2(72, 0, 24, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7vu27"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jn7qf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_founo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gb3ju")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v3l7t")
+}],
+"loop": false,
+"name": &"slash",
+"speed": 7.0
+}]
+
+[node name="SwordDamageVFX" type="Node2D"]
+script = ExtResource("1_jn7qf")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(3, 3)
+sprite_frames = SubResource("SpriteFrames_7vu27")
+animation = &"slash"
+autoplay = "slash"
+frame = 3
+frame_progress = 1.0
+
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://cwy6n0rcecf4m"]
+[gd_scene load_steps=23 format=3 uid="uid://cwy6n0rcecf4m"]
 
 [ext_resource type="PackedScene" uid="uid://duf4bf7b442q5" path="res://characters/player/player.tscn" id="1_dphjl"]
 [ext_resource type="Script" uid="uid://d28prupunmikh" path="res://scenes/world/world.gd" id="1_t5ptc"]
@@ -9,6 +9,7 @@
 [ext_resource type="AudioStream" uid="uid://c5x0fwxfk6gx5" path="res://assets/music/2019-12-09_-_Retro_Forest_-_David_Fesliyan.mp3" id="7_bq33v"]
 [ext_resource type="Script" uid="uid://4kqxbwpx6mxm" path="res://scenes/world/menu_panel.gd" id="8_j2gmx"]
 [ext_resource type="Texture2D" uid="uid://wfj25ongjxbc" path="res://characters/player/sprites/player.png" id="9_1yooq"]
+[ext_resource type="PackedScene" uid="uid://ssmj6db24iru" path="res://components/scene_transition_animation.tscn" id="10_gb53w"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_1fp7r"]
 texture = ExtResource("2_sl2e5")
@@ -238,7 +239,6 @@ animations = [{
 z_as_relative = false
 y_sort_enabled = true
 script = ExtResource("1_t5ptc")
-random_encounter = false
 
 [node name="Player" parent="." instance=ExtResource("1_dphjl")]
 z_index = 2
@@ -281,6 +281,7 @@ bus = &"Music"
 parameters/looping = true
 
 [node name="HUD" type="Control" parent="."]
+z_index = 4
 layout_mode = 3
 anchors_preset = 0
 offset_right = 1345.0
@@ -378,6 +379,8 @@ offset_bottom = 208.0
 theme_override_font_sizes/font_size = 30
 text = "Defesa 5"
 horizontal_alignment = 3
+
+[node name="SceneTransitionAnimation" parent="." instance=ExtResource("10_gb53w")]
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_monster_area_entered"]
 [connection signal="body_exited" from="Area2D" to="." method="_on_monster_area_exited"]

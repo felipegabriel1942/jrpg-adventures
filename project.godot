@@ -25,6 +25,10 @@ Global="*res://scripts/global.gd"
 
 window/stretch/mode="viewport"
 
+[dotnet]
+
+project/assembly_name="JRPG Adventures"
+
 [input]
 
 move_up={

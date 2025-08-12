@@ -11,8 +11,14 @@ extends Node2D
 @onready var enemies_positions: Node2D = $EnemiesPositions
 @onready var enemies_info_container: VBoxContainer = $HUD/BattlePanel/PanelsContainer/EnemyPanel/EnemiesInfoContainer
 @onready var level_up_panel: Panel = $HUD/LevelUpPanel
+@onready var sword_sfx: AudioStreamPlayer2D = $SwordSFX
+@onready var thud_sfx: AudioStreamPlayer2D = $ThudSFX
+@onready var scene_transition_animation: Node2D = $SceneTransitionAnimation
+@onready var explosion_sfx: AudioStreamPlayer2D = $ExplosionSFX
 
 var slime = preload("res://characters/slime/slime.tscn")
+var sword_vfx = preload("res://vfx/sword_damage_vfx.tscn")
+var explosion_vfx = preload("res://vfx/explosion_damage_vfx.tscn")
 
 const WAIT_TIME_AFTER_ATTACK := 2.0
 
@@ -36,6 +42,8 @@ var selected_enemy: BaseCharacter
 var has_gained_level: bool = false
 
 func _ready():
+	scene_transition_animation.get_node("ColorRect").color.a = 255
+	scene_transition_animation.get_node("AnimationPlayer").play("fade_out")
 	randomize()
 	Global.current_game_mode = Global.GameMode.BATTLE
 	state = BattleState.IDLE
@@ -180,7 +188,7 @@ func _execute_turn() -> void:
 				player.gain_experience(enemy.stats.experience)
 			
 			if !has_gained_level:
-				get_tree().change_scene_to_file("res://scenes/world/world.tscn")
+				_go_back_to_world()
 	else:
 		state = BattleState.IDLE
 
@@ -198,9 +206,25 @@ func _attack(attacker: BaseCharacter, defensor: BaseCharacter) -> void:
 		return
 	
 	attacker.animated_sprite_2d.play("attack")
+	
+	_play_attack_sfx(attacker)
+	_instantiate_damage_vfx(defensor)
+	
 	var damage = _calculate_damage(attacker.stats.attack, defensor.stats.defense)
 	battle_log.text = attacker.name + " causou " + str(damage) + " de dano ao " + defensor.name
 	defensor.health_component.take_damage(damage)
+
+func _play_attack_sfx(attacker: BaseCharacter) -> void:
+	match attacker.character_name:
+		"Warrior": sword_sfx.play() 
+		"Slime": thud_sfx.play()
+		
+func _instantiate_damage_vfx(defender: BaseCharacter) -> void:
+	match defender.character_name:
+		"Slime": 
+			var sword_vfx_instantiated = sword_vfx.instantiate()
+			sword_vfx_instantiated.global_position = defender.global_position
+			add_child(sword_vfx_instantiated)
 
 func _update_player_life_label() -> void:
 	player_life_label.text = "Player " + "%02d" % player.health_component.get_current_health() + "/" + "%02d" % player.stats.health
@@ -239,7 +263,7 @@ func _are_enemies_alive() -> bool:
 	return is_enemies_alive
 
 func _update_actions_disabled_status() -> void:
-	var disabled = state == BattleState.PLAYER_ACTION or state == BattleState.ENEMY_ACTION
+	var disabled = state == BattleState.PLAYER_ACTION or state == BattleState.ENEMY_ACTION or state == BattleState.END
 	
 	attack_button.disabled = disabled
 	item_button.disabled = disabled
@@ -258,7 +282,13 @@ func _use_item() -> void:
 		ItemResource.EffectType.DAMAGE:
 			match selected_item.target_scope:
 				ItemResource.TargetScope.SINGLE: selected_item.use([selected_enemy])
-				ItemResource.TargetScope.MULTIPLE: selected_item.use(enemies)
+				ItemResource.TargetScope.MULTIPLE: 
+					selected_item.use(enemies)
+					explosion_sfx.play()
+					for enemy in enemies:
+						var explosion_instantiated = explosion_vfx.instantiate()
+						explosion_instantiated.global_position = enemy.global_position
+						add_child(explosion_instantiated)
 
 func _on_enemy_selected(selected_enemy: BaseCharacter):
 	self.selected_enemy = selected_enemy
@@ -297,4 +327,11 @@ func _on_player_has_gained_level(old_level: int, old_health: int, old_attack: in
 			child.text = str(player.stats.defense)
 	
 	await get_tree().create_timer(10).timeout
+	_go_back_to_world()
+
+
+func _go_back_to_world() -> void:
+	scene_transition_animation.get_node("AnimationPlayer").play("fade_in")
+	await get_tree().create_timer(0.5).timeout
+	
 	get_tree().change_scene_to_file("res://scenes/world/world.tscn")
