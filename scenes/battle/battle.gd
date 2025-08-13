@@ -64,6 +64,7 @@ func _generate_enemies() -> void:
 		var enemy = slime.instantiate();
 		enemy.selected.connect(Callable(self, "_on_enemy_selected"))
 		enemy.position = positions[i].position
+		enemy.character_name = enemy.character_name + "(" + str(i + 1) + ")"
 		enemies.append(enemy)
 		add_child(enemy)
 		
@@ -211,20 +212,21 @@ func _attack(attacker: BaseCharacter, defensor: BaseCharacter) -> void:
 	_instantiate_damage_vfx(defensor)
 	
 	var damage = _calculate_damage(attacker.stats.attack, defensor.stats.defense)
-	battle_log.text = attacker.name + " causou " + str(damage) + " de dano ao " + defensor.name
+	battle_log.text = attacker.character_name + " causou " + str(damage) + " de dano ao " + defensor.character_name
 	defensor.health_component.take_damage(damage)
 
 func _play_attack_sfx(attacker: BaseCharacter) -> void:
-	match attacker.character_name:
-		"Warrior": sword_sfx.play() 
-		"Slime": thud_sfx.play()
+	if attacker.character_name.find("Warrior") != -1:
+		sword_sfx.play()
+		
+	if attacker.character_name.find("Slime") != -1:
+		thud_sfx.play()
 		
 func _instantiate_damage_vfx(defender: BaseCharacter) -> void:
-	match defender.character_name:
-		"Slime": 
-			var sword_vfx_instantiated = sword_vfx.instantiate()
-			sword_vfx_instantiated.global_position = defender.global_position
-			add_child(sword_vfx_instantiated)
+	if defender.character_name.find("Slime") != -1:
+		var sword_vfx_instantiated = sword_vfx.instantiate()
+		sword_vfx_instantiated.global_position = defender.global_position
+		add_child(sword_vfx_instantiated)
 
 func _update_player_life_label() -> void:
 	player_life_label.text = "Player " + "%02d" % player.health_component.get_current_health() + "/" + "%02d" % player.stats.health
@@ -239,7 +241,7 @@ func _update_enemies_life_label() -> void:
 		var label = Label.new()
 		label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_FILL
-		label.text = enemy.character_name + "(" + str(counter) + ")" + " %02d" % enemy.health_component.get_current_health() + "/" + "%02d" % enemy.stats.health
+		label.text = enemy.character_name + " %02d" % enemy.health_component.get_current_health() + "/" + "%02d" % enemy.stats.health
 		enemies_info_container.add_child(label)
 		counter += 1
 
