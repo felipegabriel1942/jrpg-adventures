@@ -15,9 +15,9 @@ var is_selected: bool
 var can_select: bool
 
 func _on_died():
-	visible = false
 	is_selected = false
 	can_select = false
+	animated_sprite_2d.play("death")
 	
 func _physics_process(delta):
 	selection_indicator.visible = is_selected
@@ -26,7 +26,11 @@ func _physics_process(delta):
 		animation_player.play("pointer")
 
 func _animation_finished():
-	animated_sprite_2d.play("idle")
+	if animated_sprite_2d.animation == "death":
+		if name != "Player":
+			visible = false
+	else:
+		animated_sprite_2d.play("idle")
 
 func _on_hurt():
 	animation_player.play("damaged")

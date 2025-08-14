@@ -168,7 +168,7 @@ health_component = NodePath("HealthComponent")
 
 [node name="AnimatedSprite2D" parent="." index="0"]
 sprite_frames = SubResource("SpriteFrames_dm8ot")
-animation = &"idle"
+animation = &"death"
 autoplay = "idle"
 frame = 0
 frame_progress = 0.0

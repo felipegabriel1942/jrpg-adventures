@@ -15,6 +15,9 @@ extends Node2D
 @onready var thud_sfx: AudioStreamPlayer2D = $ThudSFX
 @onready var scene_transition_animation: Node2D = $SceneTransitionAnimation
 @onready var explosion_sfx: AudioStreamPlayer2D = $ExplosionSFX
+@onready var lose_music: AudioStreamPlayer2D = $LoseMusic
+@onready var level_up_music: AudioStreamPlayer2D = $LevelUpMusic
+@onready var battle_music: AudioStreamPlayer2D = $BattleMusic
 
 var slime = preload("res://characters/slime/slime.tscn")
 var sword_vfx = preload("res://vfx/sword_damage_vfx.tscn")
@@ -192,6 +195,10 @@ func _execute_turn() -> void:
 				_go_back_to_world()
 	else:
 		state = BattleState.IDLE
+		
+	if !player.health_component.is_alive():
+		battle_music.stop()
+		lose_music.play()
 
 	selected_enemy = null
 	selected_item = null
@@ -309,6 +316,7 @@ func _on_player_selected(player: BaseCharacter):
 func _on_player_has_gained_level(old_level: int, old_health: int, old_attack: int, old_defense: int) -> void:
 	has_gained_level = true
 	level_up_panel.visible = true
+	_execute_level_up_music()
 	
 	for child in level_up_panel.get_children():
 		if child.name == "OldLevelValueLabel":
@@ -331,9 +339,16 @@ func _on_player_has_gained_level(old_level: int, old_health: int, old_attack: in
 	await get_tree().create_timer(10).timeout
 	_go_back_to_world()
 
-
 func _go_back_to_world() -> void:
 	scene_transition_animation.get_node("AnimationPlayer").play("fade_in")
 	await get_tree().create_timer(0.5).timeout
 	
 	get_tree().change_scene_to_file("res://scenes/world/world.tscn")
+
+func _execute_level_up_music() -> void:
+	battle_music.stream_paused = true
+	level_up_music.play()
+	
+	await get_tree().create_timer(2).timeout
+
+	battle_music.stream_paused = false

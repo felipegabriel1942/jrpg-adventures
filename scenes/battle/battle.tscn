@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://dnsgukwu73kqe"]
+[gd_scene load_steps=18 format=3 uid="uid://dnsgukwu73kqe"]
 
 [ext_resource type="PackedScene" uid="uid://duf4bf7b442q5" path="res://characters/player/player.tscn" id="1_qvbmh"]
 [ext_resource type="Script" uid="uid://ddn8nqdq0px4l" path="res://scenes/battle/battle.gd" id="1_y5c41"]
@@ -6,11 +6,13 @@
 [ext_resource type="Texture2D" uid="uid://danc2worq1cc6" path="res://assets/sprites/tilesets/plains.png" id="4_0yh6x"]
 [ext_resource type="Texture2D" uid="uid://jypw60nwk4s1" path="res://assets/sprites/tilesets/grass.png" id="5_h0kxc"]
 [ext_resource type="Texture2D" uid="uid://toknbuaae5dd" path="res://assets/sprites/tilesets/decor_16x16.png" id="6_fh7rg"]
+[ext_resource type="AudioStream" uid="uid://c5l4b02rdku7y" path="res://assets/music/lose-music.mp3" id="7_mxe8n"]
 [ext_resource type="AudioStream" uid="uid://euw4we4wm15t" path="res://assets/music/2019-12-11_-_Retro_Platforming_-_David_Fesliyan.mp3" id="7_pll4o"]
 [ext_resource type="AudioStream" uid="uid://dmttyw7sege2t" path="res://assets/sfx/thud-291047.mp3" id="8_agsc7"]
 [ext_resource type="AudioStream" uid="uid://bet42bwfa6tv4" path="res://assets/sfx/sword-sound-260274.mp3" id="8_py4tk"]
 [ext_resource type="AudioStream" uid="uid://cllyu1g1rrp1u" path="res://assets/sfx/small-explosion-94980.mp3" id="10_fisqk"]
 [ext_resource type="PackedScene" uid="uid://ssmj6db24iru" path="res://components/scene_transition_animation.tscn" id="10_oiw7q"]
+[ext_resource type="AudioStream" uid="uid://dja4qs768a4nt" path="res://assets/music/level-up-enhancement-8-bit-retro-sound-effect-153002.mp3" id="12_icoan"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_h0kxc"]
 texture = ExtResource("4_0yh6x")
@@ -441,7 +443,11 @@ layer_1/name = "ground_decor"
 layer_1/z_index = -1
 layer_1/tile_data = PackedInt32Array(524296, 65538, 0, 262154, 196610, 0, 393231, 2, 0, 589840, 131074, 0, 524300, 131074, 0, 196625, 65538, 0, 131085, 65538, 0, 524309, 2, 4, 196629, 131074, 4, 196610, 2, 4, 524293, 196610, 4, 196613, 65538, 4, 524290, 65538, 4)
 
-[node name="Music" type="AudioStreamPlayer2D" parent="."]
+[node name="LoseMusic" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("7_mxe8n")
+bus = &"Music"
+
+[node name="BattleMusic" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("7_pll4o")
 autoplay = true
 bus = &"Music"
@@ -457,6 +463,11 @@ area_mask = 0
 
 [node name="ExplosionSFX" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("10_fisqk")
+bus = &"SFX"
+
+[node name="LevelUpMusic" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("12_icoan")
+bus = &"Music"
 
 [node name="SceneTransitionAnimation" parent="." instance=ExtResource("10_oiw7q")]
 
